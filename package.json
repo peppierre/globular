@@ -1,35 +1,27 @@
 {
   "name": "globular",
   "description": "Feature-based Javascript framework",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "author": "peppierre <peppierre@gmail.com>",
   "license": "MIT",
   "homepage": "https://github.com/peppierre/globular",
   "main": "lib/globular.min.js",
-  "jsnext:main": "src/index.js",
   "files": [
-    "dist",
     "lib",
-    "src"
-  ],
-  "npmName": "globular",
-  "npmFileMap": [
-    {
-      "basePath": "/lib/",
-      "files": [
-        "*.js"
-      ]
-    }
+    "example"
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/peppierre/globular.git"
+    "url": "https://github.com/peppierre/globular.git"
   },
   "bugs": {
     "url": "https://github.com/peppierre/globular/issues"
   },
   "keywords": [
-    "globular"
+    "globular",
+    "feature-based",
+    "javascript",
+    "framework"
   ],
   "scripts": {
     "clean": "rimraf lib coverage",
