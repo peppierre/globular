@@ -1,0 +1,16 @@
+{
+    "extends": "airbnb",
+    "rules": {
+        "import/no-extraneous-dependencies" : ["error", { "devDependencies" : true }],
+        "indent": ["error", 4]
+    },
+    "globals": {
+        "describe": true,
+        "context": true,
+        "it": true,
+        "XMLHttpRequest": true,
+        "beforeEach": true,
+        "afterEach": true,
+        "sinon": true
+    }
+}

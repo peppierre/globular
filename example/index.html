@@ -1,0 +1,42 @@
+<button id="reset">Reset to zero</button>
+<button id="increment">++</button>
+<button id="decrement">--</button>
+<button id="duplicate">*2</button>
+
+<span id="result"></span>
+<span id="operation"></span>
+
+<script type="text/javascript" src="../lib/globular.min.js"></script>
+<script type="text/javascript" src="./application/increment-number/IncrementNumber.js"></script>
+<script type="text/javascript" src="./application/decrement-number/DecrementNumber.js"></script>
+<script type="text/javascript" src="./application/multiply-number/MultiplyNumber.js"></script>
+<script type="text/javascript" src="./application/reset-number/ResetNumber.js"></script>
+<script type="text/javascript" src="./application/app.js"></script>
+
+<script type="text/javascript">
+    const resultIndicator = document.querySelector('#result');
+    const operationIndicator = document.querySelector('#operation')
+    document.querySelector('#reset').onclick = () => {
+        calculator.executeFeature('reset-number');
+    };
+    document.querySelector('#increment').onclick = () => {
+        calculator.executeFeature('increment-number');
+    };
+    document.querySelector('#decrement').onclick = () => {
+        calculator.executeFeature('decrement-number');
+    };
+    document.querySelector('#duplicate').onclick = () => {
+        calculator.executeFeature('multiply-number', 2);
+    };
+    function updateResult(viewmodel) {
+        resultIndicator.innerText = viewmodel.value;
+    }
+    function updateOperation(viewmodel) {
+        operationIndicator.innerText = viewmodel.operation;
+    }
+    calculator.getFeature('increment-number').pluginView(updateResult).pluginView(updateOperation);
+    calculator.getFeature('decrement-number').pluginView(updateResult).pluginView(updateOperation);
+    calculator.getFeature('multiply-number').pluginView(updateResult).pluginView(updateOperation);
+    calculator.getFeature('reset-number').pluginView(updateResult).pluginView(updateOperation);
+
+</script>

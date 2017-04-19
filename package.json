@@ -1,0 +1,82 @@
+{
+  "name": "globular",
+  "description": "Feature-based Javascript framework",
+  "version": "0.0.1",
+  "author": "peppierre <peppierre@gmail.com>",
+  "license": "MIT",
+  "homepage": "https://github.com/peppierre/globular",
+  "main": "lib/globular.min.js",
+  "jsnext:main": "src/index.js",
+  "files": [
+    "dist",
+    "lib",
+    "src"
+  ],
+  "npmName": "globular",
+  "npmFileMap": [
+    {
+      "basePath": "/lib/",
+      "files": [
+        "*.js"
+      ]
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/peppierre/globular.git"
+  },
+  "bugs": {
+    "url": "https://github.com/peppierre/globular/issues"
+  },
+  "keywords": [
+    "globular"
+  ],
+  "scripts": {
+    "clean": "rimraf lib coverage",
+    "lint": "eslint src test --fix",
+    "test": "mocha --opts ./config/mocha.opts",
+    "coverage": "babel-node ./node_modules/.bin/isparta cover _mocha --  --opts ./config/mocha.opts",
+    "karma": "karma start ./config/karma.conf.js",
+    "validate": "npm run lint && npm run coverage",
+    "prebuild": "npm run clean && npm run validate",
+    "build": "webpack src/index.js lib/globular.min.js --config ./config/webpack.config.js",
+    "preversion": "npm run clean && npm run validate",
+    "version": "npm run build",
+    "postversion": "git push && git push --tags && npm run clean",
+    "prepublish": "npm run clean && npm run build"
+  },
+  "devDependencies": {
+    "babel-cli": "6.18.0",
+    "babel-core": "6.18.0",
+    "babel-eslint": "7.1.1",
+    "babel-loader": "6.2.7",
+    "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-plugin-transform-runtime": "6.15.0",
+    "babel-preset-es2015": "6.18.0",
+    "babel-preset-es2015-loose": "7.0.0",
+    "babel-preset-react": "6.16.0",
+    "babel-preset-stage-0": "6.16.0",
+    "chai": "3.5.0",
+    "es5-shim": "4.5.9",
+    "eslint": "3.13.0",
+    "eslint-config-airbnb": "14.0.0",
+    "eslint-config-rackt": "1.1.1",
+    "eslint-plugin-import": "2.2.0",
+    "eslint-plugin-jsx-a11y": "3.0.2",
+    "eslint-plugin-react": "6.9.0",
+    "isparta": "4.0.0",
+    "istanbul": "0.4.5",
+    "mocha": "3.0.2",
+    "node-localstorage": "^1.3.0",
+    "phantomjs": "1.9.20",
+    "phantomjs-prebuilt": "2.1.13",
+    "rimraf": "2.5.4",
+    "sinon": "1.17.7",
+    "sinon-chai": "2.8.0",
+    "webpack": "2.4.0"
+  },
+  "devEngines": {
+    "node": "4.x || 5.x",
+    "npm": "2.x || 3.x"
+  }
+}
