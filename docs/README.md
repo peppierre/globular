@@ -13,3 +13,6 @@ Globular is a feature-based, view-agnostic framework written in ECMAScript 2015 
 * 0.1.0
     1. ability to create Globular apps and extend it by features
     1. globular.Api class to provide pluginable API adapter solution for applications
+
+* 0.1.1
+    1. documentation added
