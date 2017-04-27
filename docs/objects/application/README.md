@@ -11,3 +11,5 @@ Application object provides ability work with features of application. This incl
 [extendWithFeature()](extend-with-feature/README.md)
 
 [executeFeature()](execute-feature/README.md)
+
+[apiAdapter](api-adapter/README.md)
