@@ -5,6 +5,8 @@ import FeatureFactory from '../../modules/feature/FeatureFactory';
 function Application({ persistency, api }) {
     const features = new Map();
 
+    this.apiAdapter = api;
+
     this.getFeatures = () => Array.from(features.keys());
 
     this.getFeature = featureName => features.get(featureName);
