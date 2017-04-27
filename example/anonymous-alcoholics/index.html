@@ -1,0 +1,33 @@
+<h1>Welcome to Anti-Alcoholic Group!</h1>
+Please select whose intro speach you would like to see: <input id="selectedMember" type="number" min="1" max="6" value="1"/>
+<button id="welcome">Let's see!</button>
+
+<span id="greeting"></span>! My name is <span id="member"></span> and I'm clean since <span id="term"></span> months.
+
+<script type="text/javascript" src="node_modules/globular/lib/globular.min.js"></script>
+<script type="text/javascript" src="application/welcome-new-member/WelcomeNewMember.js"></script>
+<script type="text/javascript" src="application/app.js"></script>
+
+<script type="text/javascript">
+    const clubApplication = globular.app('anonymous-alcoholics');
+
+    const greeting = document.querySelector('#greeting');
+    const member = document.querySelector('#member');
+    const term = document.querySelector('#term');
+    const memberSelector = document.querySelector('#selectedMember');
+
+    document.querySelector('#welcome').onclick = () => {
+        clubApplication.executeFeature('welcome-new-member', memberSelector.value);
+    };
+
+    function updateGreeting(viewmodel) {
+        greeting.innerText = viewmodel.sayHi;
+    }
+    function updateMember(viewmodel) {
+        member.innerText = viewmodel.whoAmI;
+    }
+    function updateTerm(viewmodel) {
+        term.innerText = viewmodel.cleanSince;
+    }
+    clubApplication.getFeature('welcome-new-member').pluginView(updateGreeting).pluginView(updateMember).pluginView(updateTerm);
+</script>
