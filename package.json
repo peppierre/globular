@@ -1,7 +1,7 @@
 {
   "name": "globular",
   "description": "Feature-based Javascript framework",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "author": "peppierre <peppierre@gmail.com>",
   "license": "MIT",
   "homepage": "https://github.com/peppierre/globular",
