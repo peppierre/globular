@@ -4,7 +4,7 @@ import ApplicationFactory from './modules/application/ApplicationFactory';
 const applications = new Map();
 
 class Globular {
-    static initializeApp(applicationName, { persistency, api } = {}) {
+    static initializeApp(applicationName, { persistency, api = new ApiAdapter() } = { }) {
         const application = ApplicationFactory.produce({ persistency, api });
         applications.set(applicationName, application);
         return application;
