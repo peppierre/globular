@@ -4,11 +4,25 @@ import isMethod from '../../util/isMethod';
 function ApplicationFeature(core) {
     const viewCallbacks = new Set();
 
-    this.execute = (data) => {
-        const result = core.execute(data);
+    function isPromise(value) {
+        return value && isMethod(value.then);
+    }
+
+    function notifyViews(model) {
         viewCallbacks.forEach((callback) => {
-            callback(result);
+            callback(model);
         });
+    }
+
+    this.execute = (data) => {
+        const coreOutput = core.execute(data);
+        if (isPromise(coreOutput)) {
+            coreOutput.then((result) => {
+                notifyViews(result);
+            });
+        } else {
+            notifyViews(coreOutput);
+        }
     };
 
     this.pluginView = (callback) => {
