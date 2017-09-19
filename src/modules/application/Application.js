@@ -24,6 +24,10 @@ export function Application({ persistency, api } = {}) {
         return feature;
     };
 
+    this.shrinkWithFeature = (featureName) => {
+        features.delete(featureName);
+    };
+
     this.executeFeature = (featureName, data) => {
         const featureToExecute = features.get(featureName);
         if (featureToExecute) {

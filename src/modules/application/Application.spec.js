@@ -74,6 +74,16 @@ describe('Application Module', () => {
                 application.extendWithFeature('goalie-in', SimpleFeatureCore);
                 expect(application.getFeatures()).to.deep.equal(['goalie-in']);
             });
+            it('should be shrinked by a feature', () => {
+                /* eslint-disable class-methods-use-this */
+                class SimpleFeatureCore {
+                    execute() {}
+                }
+                /* eslint-enable class-methods-use-this */
+                application.extendWithFeature('goalie-in', SimpleFeatureCore);
+                application.shrinkWithFeature('goalie-in');
+                expect(application.getFeatures()).to.deep.equal([]);
+            });
             it('should return feature when extended', () => {
                 /* eslint-disable class-methods-use-this */
                 class SimpleFeatureCore {
