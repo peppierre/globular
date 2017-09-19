@@ -53,6 +53,17 @@ describe('Feature Module', () => {
                 expect(returnedFeature).to.equal(synchonousFeature);
             });
         });
+        context('when a view is unplugged', () => {
+            const view = sinon.spy();
+            it('should make view to be unavailable', () => {
+                synchonousFeature.pluginView(view);
+                synchonousFeature.execute(SAMPLE_RESULT);
+                expect(view.calledOnce).to.be.equal(true);
+                synchonousFeature.unplugView(view);
+                synchonousFeature.execute(SAMPLE_RESULT);
+                expect(view.calledOnce).to.be.equal(true);
+            });
+        });
         context('when stand-alone synchonousFeature with no persistency nor API dependency wrapped', () => {
             beforeEach(() => {
                 synchonousFeature = new ApplicationFeature(new SyncPureCore());

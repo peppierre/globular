@@ -31,4 +31,8 @@ export function ApplicationFeature(core) {
         viewCallbacks.add(callback);
         return this;
     };
+
+    this.unplugView = (callback) => {
+        viewCallbacks.delete(callback);
+    };
 }
