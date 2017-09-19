@@ -1,7 +1,7 @@
 {
   "name": "globular",
   "description": "Feature-based Javascript framework",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "author": "peppierre <peppierre@gmail.com>",
   "license": "MIT",
   "homepage": "https://github.com/peppierre/globular",
@@ -29,7 +29,6 @@
     "lint": "eslint src test --fix",
     "test": "mocha --opts ./config/mocha.opts",
     "coverage": "babel-node ./node_modules/.bin/isparta cover _mocha --  --opts ./config/mocha.opts",
-    "karma": "karma start ./config/karma.conf.js",
     "validate": "npm run lint && npm run coverage",
     "prebuild": "npm run clean && npm run validate",
     "build": "webpack src/index.js lib/globular.min.js --config ./config/webpack.config.js",
@@ -64,7 +63,7 @@
     "phantomjs": "1.9.20",
     "phantomjs-prebuilt": "2.1.13",
     "rimraf": "2.5.4",
-    "sinon": "1.17.7",
+    "sinon": "3.2.1",
     "sinon-chai": "2.8.0",
     "webpack": "2.4.0"
   },

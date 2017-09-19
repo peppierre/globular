@@ -1,27 +1,6 @@
 import { expect } from 'chai';
 import isApiAdapter from './isApiAdapter';
-
-class NonPlugableApi {
-    request(data) {
-        this.data = data;
-    }
-}
-
-class NonRequestableApi {
-    pluginCall(id, call) {
-        this[id] = call;
-    }
-}
-
-class MinimumRequiredApi {
-    request(data) {
-        this.data = data;
-    }
-
-    pluginCall(id, call) {
-        this[id] = call;
-    }
-}
+import { NonPlugableApi, NonRequestableApi, MinimumRequiredApi } from './isApiAdapter.spec.def';
 
 describe('API Module', () => {
     describe('API Adapter Validator', () => {

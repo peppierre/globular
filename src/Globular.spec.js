@@ -1,8 +1,9 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { LocalStorage } from 'node-localstorage';
+
 import globular from './Globular';
-import ApplicationFactory from './modules/application/ApplicationFactory';
+import ApplicationFactory from './modules/application';
 import isInterfaceImplemented from './util/isInterfaceImplemented';
 import isMethod from './util/isMethod';
 
