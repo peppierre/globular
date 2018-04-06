@@ -6,12 +6,14 @@ API Adapter interface is a common way to make API plugginable to applications. W
 
 ### Criteria against
 
-1. Adapter must have `pluginCall` and `request` methods implemented.
+1. Adapter must have `pluginCall`, `unplugCall` and `request` methods implemented.
 
 **Example**
 
     class MyApiAdapter {
         pluginCall() {}
+        
+        unplugCall() {}
         
         request(data) {
             return JSON.stringify(data);

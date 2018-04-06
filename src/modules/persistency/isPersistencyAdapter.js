@@ -1,7 +1,7 @@
-import isInterfaceImplemented from '../../util/isInterfaceImplemented';
+import { isInterfaceImplemented } from '../../util/isInterfaceImplemented';
 
 const requiredMethods = ['getItem', 'setItem', 'removeItem', 'clear'];
 
-export default function isPersistencyInterfaceImplemented(apiImplementation) {
-    return isInterfaceImplemented(apiImplementation, requiredMethods);
+export function isPersistencyAdapter(storageToCheck) {
+    return isInterfaceImplemented(storageToCheck, requiredMethods);
 }

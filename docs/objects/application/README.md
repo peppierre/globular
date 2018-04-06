@@ -6,9 +6,11 @@ Application object provides ability work with features of application. This incl
 
 [getFeature()](get-feature/README.md)
 
-[getFeatures()](get-features/README.md)
+[getFeatureNames()](get-feature-names/README.md)
 
 [extendWithFeature()](extend-with-feature/README.md)
+
+[shrinkWithFeature()](shrink-with-feature/README.md)
 
 [executeFeature()](execute-feature/README.md)
 

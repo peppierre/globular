@@ -1,27 +1,28 @@
 import { expect } from 'chai';
-import isFeatureCore from './isFeatureCore';
+import sinon from 'sinon';
 
-/* eslint-disable class-methods-use-this */
-class NonExecutableFeature {
-    unExecute() {}
-}
+import { isFeatureCore } from './isFeatureCore';
+import * as Util from '../../util/isInterfaceImplemented';
 
-class MinimumRequiredFeature {
-    execute() {}
-}
-/* eslint-enable class-methods-use-this */
+import { MinimumRequiredFeature } from './isFeatureCore.spec-def';
 
 describe('Feature Module', () => {
     describe('FeatureCore Validator', () => {
-        context('when proper API implementation is passed to', () => {
-            it('should return true', () => {
-                expect(isFeatureCore(new MinimumRequiredFeature())).to.be.equal(true);
-            });
+        beforeEach(() => {
+            sinon.stub(Util, 'isInterfaceImplemented').returns(true);
         });
-        context('when invalid API implementation is passed to', () => {
-            it('should return false', () => {
-                expect(isFeatureCore(new NonExecutableFeature())).to.be.equal(false);
-            });
+
+        afterEach(() => {
+            Util.isInterfaceImplemented.restore();
+        });
+
+        it('should call helper function to check object or class against interface required', () => {
+            isFeatureCore(MinimumRequiredFeature);
+
+            const callArgs = Util.isInterfaceImplemented.firstCall.args;
+            expect(Util.isInterfaceImplemented.calledOnce).to.be.equal(true);
+            expect(callArgs[0]).to.be.equal(MinimumRequiredFeature);
+            expect(callArgs[1]).to.be.deep.equal(['execute']);
         });
     });
 });

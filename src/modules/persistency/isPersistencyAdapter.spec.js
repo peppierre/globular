@@ -1,21 +1,28 @@
+import sinon from 'sinon';
 import { expect } from 'chai';
-import isPersistencyAdapter from './isPersistencyAdapter';
-import { MinimumRequiredApi, NonGetableApi, NonSetableApi, NonRemovableApi, NonClearableApi } from './isPersistencyAdapter.spec.def';
+
+import { isPersistencyAdapter } from './isPersistencyAdapter';
+import * as Util from '../../util/isInterfaceImplemented';
+
+import { MinimumRequiredApi } from './isPersistencyAdapter.spec-def';
 
 describe('Persistency Module', () => {
     describe('Persistency Adapter Validator', () => {
-        context('when proper API implementation is passed to', () => {
-            it('should return true', () => {
-                expect(isPersistencyAdapter(new MinimumRequiredApi())).to.be.equal(true);
-            });
+        beforeEach(() => {
+            sinon.stub(Util, 'isInterfaceImplemented').returns(true);
         });
-        context('when invalid API implementation is passed to', () => {
-            it('should return false', () => {
-                expect(isPersistencyAdapter(new NonGetableApi())).to.be.equal(false);
-                expect(isPersistencyAdapter(new NonSetableApi())).to.be.equal(false);
-                expect(isPersistencyAdapter(new NonRemovableApi())).to.be.equal(false);
-                expect(isPersistencyAdapter(new NonClearableApi())).to.be.equal(false);
-            });
+
+        afterEach(() => {
+            Util.isInterfaceImplemented.restore();
+        });
+
+        it('should call low-level validator with expected API passed', () => {
+            isPersistencyAdapter(MinimumRequiredApi);
+
+            const callArgs = Util.isInterfaceImplemented.firstCall.args;
+            expect(Util.isInterfaceImplemented.calledOnce).to.be.equal(true);
+            expect(callArgs[0]).to.be.equal(MinimumRequiredApi);
+            expect(callArgs[1]).to.deep.equal(['getItem', 'setItem', 'removeItem', 'clear']);
         });
     });
 });

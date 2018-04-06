@@ -3,85 +3,95 @@ import sinon from 'sinon';
 import { LocalStorage } from 'node-localstorage';
 
 import { ApplicationFeature } from './ApplicationFeature';
-import { AsyncPureCore, SyncPureCore } from './ApplicationFeature.spec.def';
+import { AsyncPureCore, SyncPureCore } from './ApplicationFeature.spec-def';
 
 const SAMPLE_RESULT = 'sample-result';
 
 describe('Feature Module', () => {
-    let synchonousFeature;
+    let synchronousFeature;
     let asynchronousFeature;
 
     describe('Feature', () => {
         context('when a view is plugged in', () => {
             beforeEach(() => {
-                synchonousFeature = new ApplicationFeature(new SyncPureCore());
+                synchronousFeature = new ApplicationFeature(new SyncPureCore());
             });
+
             it('should accept functions as view callback', () => {
                 expect(() => {
-                    synchonousFeature.pluginView(() => {});
+                    synchronousFeature.pluginView(() => {});
                 }).not.to.throw(Error);
             });
+
             it('should reject strings as view callback', () => {
                 expect(() => {
-                    synchonousFeature.pluginView('definately not a function');
+                    synchronousFeature.pluginView('definately not a function');
                 }).to.throw(Error);
             });
+
             it('should reject numbers as view callback', () => {
                 expect(() => {
-                    synchonousFeature.pluginView(42);
+                    synchronousFeature.pluginView(42);
                 }).to.throw(Error);
             });
+
             it('should reject booleans as view callback', () => {
                 expect(() => {
-                    synchonousFeature.pluginView(true);
+                    synchronousFeature.pluginView(true);
                 }).to.throw(Error);
             });
+
             it('should reject objects as view callback', () => {
                 expect(() => {
-                    synchonousFeature.pluginView({});
+                    synchronousFeature.pluginView({});
                 }).to.throw(Error);
             });
+
             it('should reject undefineds as view callback', () => {
                 expect(() => {
-                    synchonousFeature.pluginView();
+                    synchronousFeature.pluginView();
                 }).to.throw(Error);
             });
-            it('should return synchonousFeature itself', () => {
-                const returnedFeature = synchonousFeature.pluginView(() => {
+
+            it('should return synchronousFeature itself', () => {
+                const returnedFeature = synchronousFeature.pluginView(() => {
 
                 });
-                expect(returnedFeature).to.equal(synchonousFeature);
+                expect(returnedFeature).to.equal(synchronousFeature);
             });
         });
         context('when a view is unplugged', () => {
             const view = sinon.spy();
+
             it('should make view to be unavailable', () => {
-                synchonousFeature.pluginView(view);
-                synchonousFeature.execute(SAMPLE_RESULT);
+                synchronousFeature.pluginView(view);
+                synchronousFeature.execute(SAMPLE_RESULT);
                 expect(view.calledOnce).to.be.equal(true);
-                synchonousFeature.unplugView(view);
-                synchonousFeature.execute(SAMPLE_RESULT);
+                synchronousFeature.unplugView(view);
+                synchronousFeature.execute(SAMPLE_RESULT);
                 expect(view.calledOnce).to.be.equal(true);
             });
         });
-        context('when stand-alone synchonousFeature with no persistency nor API dependency wrapped', () => {
+        context('when stand-alone Feature with no persistency nor API dependency wrapped', () => {
             beforeEach(() => {
-                synchonousFeature = new ApplicationFeature(new SyncPureCore());
+                synchronousFeature = new ApplicationFeature(new SyncPureCore());
                 asynchronousFeature = new ApplicationFeature(new AsyncPureCore());
             });
-            it('should execute wrapped core synchonousFeature', () => {
+
+            it('should execute wrapped core synchonous Feature', () => {
                 expect(() => {
-                    synchonousFeature.execute(SAMPLE_RESULT);
+                    synchronousFeature.execute(SAMPLE_RESULT);
                 }).not.to.throw(Error);
             });
+
             it('should call back all plugged-in views after execution in case of synchronous functionality', () => {
                 const view1Callback = sinon.stub();
                 const view2Callback = sinon.stub();
 
-                synchonousFeature.pluginView(view1Callback);
-                synchonousFeature.pluginView(view2Callback);
+                synchronousFeature.pluginView(view1Callback);
+                synchronousFeature.pluginView(view2Callback);
 
-                synchonousFeature.execute(SAMPLE_RESULT);
+                synchronousFeature.execute(SAMPLE_RESULT);
 
                 expect(view1Callback.calledOnce).to.be.equal(true);
                 expect(view1Callback.calledWith(SAMPLE_RESULT)).to.be.equal(true);
@@ -89,6 +99,7 @@ describe('Feature Module', () => {
                 expect(view2Callback.calledOnce).to.be.equal(true);
                 expect(view2Callback.calledWith(SAMPLE_RESULT)).to.be.equal(true);
             });
+
             it('should call back all plugged-in views after execution in case of asynchronous functionality', (done) => {
                 const view1Callback = sinon.stub();
                 const view2Callback = sinon.stub();
@@ -110,7 +121,7 @@ describe('Feature Module', () => {
             });
         });
 
-        context('when persistency-dependent synchonousFeature is wrapped', () => {
+        context('when persistency-dependent Feature is wrapped', () => {
             class PersistencyCore {
                 constructor({ persistency }) {
                     this.persistency = persistency;
@@ -127,20 +138,22 @@ describe('Feature Module', () => {
             beforeEach(() => {
                 mockPersistency = new LocalStorage('./tmp/localStorage');
                 setItemSpy = sinon.spy(mockPersistency, 'setItem');
-                synchonousFeature = new ApplicationFeature(
+                synchronousFeature = new ApplicationFeature(
                     new PersistencyCore({ persistency: mockPersistency }),
                 );
             });
+
             afterEach(() => {
                 setItemSpy.restore();
             });
+
             it('should use injected persistency adapter', () => {
-                synchonousFeature.execute('fake value');
+                synchronousFeature.execute('fake value');
                 expect(setItemSpy.calledOnce).to.be.equal(true);
             });
         });
 
-        context('when API-dependent synchonousFeature is wrapped', () => {
+        context('when API-dependent Feature is wrapped', () => {
             class ApiCore {
                 constructor({ api }) {
                     this.api = api;
@@ -165,13 +178,15 @@ describe('Feature Module', () => {
                     }),
                 };
                 requestSpy = sinon.spy(mockApi, 'request');
-                synchonousFeature = new ApplicationFeature(new ApiCore({ api: mockApi }));
+                synchronousFeature = new ApplicationFeature(new ApiCore({ api: mockApi }));
             });
+
             afterEach(() => {
                 requestSpy.restore();
             });
+
             it('should use injected API adapter', () => {
-                synchonousFeature.execute('fake value');
+                synchronousFeature.execute('fake value');
                 expect(requestSpy.calledOnce).to.be.equal(true);
             });
         });

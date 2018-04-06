@@ -1,7 +1,7 @@
-import isInterfaceImplemented from '../../util/isInterfaceImplemented';
+import { isInterfaceImplemented } from '../../util/isInterfaceImplemented';
 
-const requiredMethods = ['pluginCall', 'request'];
+const requiredMethods = ['pluginCall', 'unplugCall', 'request'];
 
-export default function isApiInterfaceImplemented(apiImplementation) {
-    return isInterfaceImplemented(apiImplementation, requiredMethods);
+export function isApiAdapter(classToCheck) {
+    return isInterfaceImplemented(classToCheck, requiredMethods);
 }

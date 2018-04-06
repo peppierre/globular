@@ -1,10 +1,8 @@
-import isMethod from '../../util/isMethod';
-
 export function ApplicationFeature(core) {
     const viewCallbacks = new Set();
 
     function isPromise(value) {
-        return value && isMethod(value.then);
+        return value && (typeof value.then === 'function');
     }
 
     function notifyViews(model) {
@@ -25,7 +23,7 @@ export function ApplicationFeature(core) {
     };
 
     this.pluginView = (callback) => {
-        if (!isMethod(callback)) {
+        if (typeof callback !== 'function') {
             throw new TypeError('View is not able to called back');
         }
         viewCallbacks.add(callback);

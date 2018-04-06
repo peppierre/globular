@@ -1,5 +1,5 @@
-import isPersistencyAdapter from '../../modules/persistency/isPersistencyAdapter';
-import isApiAdapter from '../../modules/api/isApiAdapter';
+import { isPersistencyAdapter } from '../../modules/persistency/isPersistencyAdapter';
+import { isApiAdapter } from '../../modules/api/isApiAdapter';
 import FeatureFactory from '../../modules/feature';
 
 export function Application({ persistency, api } = {}) {
@@ -14,7 +14,7 @@ export function Application({ persistency, api } = {}) {
 
     this.apiAdapter = api;
 
-    this.getFeatures = () => Array.from(features.keys());
+    this.getFeatureNames = () => Array.from(features.keys());
 
     this.getFeature = featureName => features.get(featureName);
 

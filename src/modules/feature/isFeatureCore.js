@@ -1,7 +1,7 @@
-import isInterfaceImplemented from '../../util/isInterfaceImplemented';
+import { isInterfaceImplemented } from '../../util/isInterfaceImplemented';
 
 const requiredMethods = ['execute'];
 
-export default function isApiInterfaceImplemented(apiImplementation) {
-    return isInterfaceImplemented(apiImplementation, requiredMethods);
+export function isFeatureCore(classToCheck) {
+    return isInterfaceImplemented(classToCheck, requiredMethods);
 }

@@ -1,8 +1,9 @@
-export class SyncPureCore {
-    execute(data) {
+export function SyncPureCore() {
+    this.execute = (data) => {
         this.result = data;
         return this.result;
-    }
+    };
+    this.fakeProperty = 42;
 }
 
 /* eslint-disable class-methods-use-this */

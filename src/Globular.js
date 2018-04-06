@@ -1,4 +1,4 @@
-import ApiAdapter from './modules/api/ApiAdapter';
+import { ApiAdapter } from './modules/api/ApiAdapter';
 import ApplicationFactory from './modules/application';
 
 const applications = new Map();

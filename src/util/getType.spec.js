@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import getType from './getType';
+import { getType } from './getType';
 
 describe('Utilities', () => {
     describe('getType utility', () => {
@@ -16,6 +16,7 @@ describe('Utilities', () => {
                 /* eslint-enable no-new-wrappers */
             });
         });
+
         context('when string is passed', () => {
             it('should return "string"', () => {
                 expect(getType('')).to.be.equal('string');
@@ -24,6 +25,7 @@ describe('Utilities', () => {
                 /* eslint-enable no-new-wrappers */
             });
         });
+
         context('when true or false is passed', () => {
             it('should return "boolean"', () => {
                 expect(getType(true)).to.be.equal('boolean');
@@ -33,6 +35,7 @@ describe('Utilities', () => {
                 /* eslint-enable no-new-wrappers */
             });
         });
+
         context('when object is passed', () => {
             it('should return "object"', () => {
                 expect(getType({})).to.be.equal('object');
@@ -42,6 +45,7 @@ describe('Utilities', () => {
                 expect(getType(Object.create({}))).to.be.equal('object');
             });
         });
+
         context('when function is passed', () => {
             it('should return "function"', () => {
                 expect(getType(() => {
@@ -51,16 +55,19 @@ describe('Utilities', () => {
                 /* eslint-enable no-new-func */
             });
         });
+
         context('when nothing is passed', () => {
             it('should return "undefined"', () => {
                 expect(getType()).to.be.equal('undefined');
             });
         });
+
         context('when null is passed', () => {
             it('should return "null"', () => {
                 expect(getType(null)).to.be.equal('null');
             });
         });
+
         context('when array is passed', () => {
             it('should return "array"', () => {
                 expect(getType([])).to.be.equal('array');
@@ -69,11 +76,13 @@ describe('Utilities', () => {
                 /* eslint-enable no-array-constructor */
             });
         });
+
         context('when date is passed', () => {
             it('should return "date"', () => {
                 expect(getType(new Date())).to.be.equal('date');
             });
         });
+
         context('when regular expression is passed', () => {
             it('should return "regexp"', () => {
                 expect(getType(/a/g)).to.be.equal('regexp');

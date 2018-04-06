@@ -1,4 +1,4 @@
-import isFeatureCore from './isFeatureCore';
+import { isFeatureCore } from './isFeatureCore';
 import { ApplicationFeature } from './ApplicationFeature';
 
 export default class FeatureFactory {

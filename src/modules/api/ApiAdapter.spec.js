@@ -1,15 +1,33 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-import ApiAdapter from './ApiAdapter';
-import { fakeResult, properCallId, MockedBookTableCall, MockedGetBookingsCall, MockedGetQueueItemCall } from './ApiAdapter.spec.def';
+import { ApiAdapter } from './ApiAdapter';
+import { properCallId, MockedBookTableCall, MockedGetBookingsCall, MockedGetQueueItemCall } from './ApiAdapter.spec-def';
 
 describe('API Module', () => {
     describe('ApiAdapter', () => {
         let api;
+
         beforeEach(() => {
             api = new ApiAdapter();
         });
-        context('with focusing on API calls', () => {
+
+        it('should be able to plug in a call', () => {
+            api.pluginCall(properCallId, () => {});
+
+            const availableCalls = api.getAvailableCalls();
+            expect(availableCalls.length).to.be.equal(1);
+            expect(availableCalls.includes(properCallId)).to.be.equal(true);
+        });
+
+        it('should be able to unplug a call', () => {
+            api.pluginCall(properCallId, () => {});
+            api.unplugCall(properCallId);
+
+            const availableCalls = api.getAvailableCalls();
+            expect(availableCalls.length).to.be.equal(0);
+        });
+
+        context('when relevant API call is plugged in', () => {
             let requests;
 
             function checkIfMockedBookTableCalled(request) {
@@ -51,29 +69,11 @@ describe('API Module', () => {
                     requests.push(xhr);
                 };
             });
+
             afterEach(() => {
                 global.XMLHttpRequest.restore();
             });
-            it('should be pluggable with propert calls', () => {
-                expect(() => {
-                    api.pluginCall(properCallId, MockedBookTableCall);
-                }).not.to.throw(Error);
-                expect(() => {
-                    api.pluginCall(properCallId, '');
-                }).to.throw(Error);
-                expect(() => {
-                    api.pluginCall(properCallId, 6);
-                }).to.throw(Error);
-                expect(() => {
-                    api.pluginCall(properCallId, {});
-                }).to.throw(Error);
-                expect(() => {
-                    api.pluginCall(properCallId, true);
-                }).to.throw(Error);
-                expect(() => {
-                    api.pluginCall(properCallId);
-                }).to.throw(Error);
-            });
+
             it('should be transformed properly from data', (done) => {
                 api.pluginCall(properCallId, MockedBookTableCall);
                 api.request(properCallId, {}).then(() => {
@@ -83,6 +83,7 @@ describe('API Module', () => {
                 checkIfMockedBookTableCalled(requests[0]);
                 responseToMockedBookTableCall(requests[0]);
             });
+
             it('should be called via GET if no method defined in plugin', (done) => {
                 api.pluginCall(properCallId, MockedGetQueueItemCall);
                 api.request(properCallId, {}).then(() => {
@@ -92,6 +93,7 @@ describe('API Module', () => {
                 checkIfMockedGetBookingCalled(requests[0]);
                 responseToMockedGetBookingCall(requests[0]);
             });
+
             it('should be resolved when call finished successfully', (done) => {
                 api.pluginCall(properCallId, MockedBookTableCall);
                 api.request(properCallId, {}).then((result) => {
@@ -100,6 +102,7 @@ describe('API Module', () => {
                 });
                 responseToMockedBookTableCall(requests[0]);
             });
+
             it('should be rejected when call failed', (done) => {
                 api.pluginCall(properCallId, MockedBookTableCall);
                 api.request(properCallId, {}).then(() => {
@@ -111,6 +114,7 @@ describe('API Module', () => {
                 });
                 requests[0].respond(500);
             });
+
             it('should be rejected when network error occured', (done) => {
                 api.pluginCall(properCallId, MockedBookTableCall);
                 api.request(properCallId, {}).then(() => {
@@ -122,6 +126,9 @@ describe('API Module', () => {
                 });
                 requests[0].respond(0);
             });
+        });
+
+        context('when relevant API call is not plugged in', () => {
             it('should be rejected when not-yet-plugged-in call is called', (done) => {
                 api.request(properCallId, {})
                     .then(() => {
@@ -133,16 +140,36 @@ describe('API Module', () => {
                         done();
                     });
             });
-            it('should be pluggable once only', (done) => {
+        });
+
+        context('when relevant API call is plugged in more then once', () => {
+            let requests;
+
+            beforeEach(() => {
+                global.XMLHttpRequest = sinon.useFakeXMLHttpRequest();
+                requests = [];
+                global.XMLHttpRequest.onCreate = (xhr) => {
+                    requests.push(xhr);
+                };
+            });
+
+            afterEach(() => {
+                global.XMLHttpRequest.restore();
+            });
+
+            it('should be pluggable once only', () => {
                 api.pluginCall(properCallId, MockedBookTableCall);
                 api.pluginCall(properCallId, MockedGetBookingsCall);
-                api.request(properCallId, {}).then((result) => {
-                    expect(result).to.be.equal(fakeResult.toString());
-                    done();
-                });
+                expect(api.getAvailableCalls().length).to.be.equal(1);
+            });
+        });
 
-                checkIfMockedBookTableCalled(requests[0]);
-                responseToMockedBookTableCall(requests[0]);
+        context('when invalid API call tried to be plugged in', () => {
+            it('should throw error', () => {
+                expect(() => {
+                    api.pluginCall(properCallId, '');
+                }).to.throw(Error);
+                expect(api.getAvailableCalls().length).to.be.equal(0);
             });
         });
     });

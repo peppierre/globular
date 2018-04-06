@@ -1,6 +1,4 @@
-import isMethod from '../../util/isMethod';
-
-export default function ApiAdapter() {
+export function ApiAdapter() {
     const calls = new Map();
 
     function isAlreadyPluggedIn(id) {
@@ -32,7 +30,7 @@ export default function ApiAdapter() {
     /* eslint-disable class-methods-use-this */
     return new class {
         pluginCall(id, call) {
-            if (!isMethod(call)) {
+            if (typeof call !== 'function') {
                 throw new TypeError('Invalid API call');
             }
             if (isAlreadyPluggedIn(id)) {
@@ -41,6 +39,14 @@ export default function ApiAdapter() {
             /* eslint-disable no-eval */
             calls.set(id, eval(call));
             /* eslint-enable no-eval */
+        }
+
+        unplugCall(id) {
+            calls.delete(id);
+        }
+
+        getAvailableCalls() {
+            return Array.from(calls.keys());
         }
 
         request(id, data) {

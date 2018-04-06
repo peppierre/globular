@@ -1,19 +1,27 @@
 import { expect } from 'chai';
-import isApiAdapter from './isApiAdapter';
-import { NonPlugableApi, NonRequestableApi, MinimumRequiredApi } from './isApiAdapter.spec.def';
+import sinon from 'sinon';
+
+import { isApiAdapter } from './isApiAdapter';
+import * as Util from '../../util/isInterfaceImplemented';
+
+import { MinimumRequiredApi } from './isApiAdapter.spec-def';
 
 describe('API Module', () => {
     describe('API Adapter Validator', () => {
-        context('when proper API implementation is passed to', () => {
-            it('should return true', () => {
-                expect(isApiAdapter(new MinimumRequiredApi())).to.be.equal(true);
-            });
+        beforeEach(() => {
+            sinon.stub(Util, 'isInterfaceImplemented').returns(true);
         });
-        context('when invalid API implementation is passed to', () => {
-            it('should return false', () => {
-                expect(isApiAdapter(new NonPlugableApi())).to.be.equal(false);
-                expect(isApiAdapter(new NonRequestableApi())).to.be.equal(false);
-            });
+
+        afterEach(() => {
+            Util.isInterfaceImplemented.restore();
+        });
+
+        it('should check whether all required API methods implemented', () => {
+            isApiAdapter(MinimumRequiredApi);
+
+            const callArgs = Util.isInterfaceImplemented.firstCall.args;
+            expect(Util.isInterfaceImplemented.callCount).to.be.equal(1);
+            expect(callArgs[1]).to.deep.equal(['pluginCall', 'unplugCall', 'request']);
         });
     });
 });

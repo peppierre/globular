@@ -4,202 +4,144 @@ import { LocalStorage } from 'node-localstorage';
 
 import { Application } from './Application';
 import FeatureFactory from '../../modules/feature/FeatureFactory';
-import isInterfaceImplemented from '../../util/isInterfaceImplemented';
+import { SimpleFeatureCore } from './Application.spec-def';
 
 describe('Application Module', () => {
     describe('Application', () => {
-        context('while initializing', () => {
-            it('should accept if no configuration defined at all', () => {
+        let application;
+
+        context('when creating application', () => {
+            it('should be able to create an application with no persistency nor API', () => {
                 expect(() => {
-                    /* eslint-disable no-new */
-                    new Application();
-                    /* eslint-enable no-new */
+                    application = new Application();
                 }).not.to.throw(TypeError);
             });
-            it('should accept if no persistency neither API configuration defined', () => {
-                expect(() => {
-                    /* eslint-disable no-new */
-                    new Application({});
-                    /* eslint-enable no-new */
-                }).not.to.throw(TypeError);
-            });
+
             it('should accept persistency with Storage API implemented', () => {
                 const localStorage = new LocalStorage('./tmp/localStorage');
                 expect(() => {
-                    /* eslint-disable no-new */
-                    new Application({ persistency: localStorage });
-                    /* eslint-enable no-new */
+                    application = new Application({ persistency: localStorage });
                 }).not.to.throw(TypeError);
             });
+
             it('should reject persistency with no proper Storage API implemented', () => {
                 expect(() => {
-                    /* eslint-disable no-new */
-                    new Application({ persistency: {} });
-                    /* eslint-enable no-new */
+                    application = new Application({ persistency: {} });
                 }).to.throw(TypeError);
             });
-            it('should accept API adapter with API Adapter API implemented', () => {
+
+            it('should accept API Adapter with API API implemented', () => {
                 expect(() => {
-                    /* eslint-disable no-new */
-                    new Application({ api: {
-                        request: () => {},
-                        pluginCall: () => {},
-                    } });
-                    /* eslint-enable no-new */
+                    application = new Application({ api: {
+                        pluginCall: () => true,
+                        unplugCall: () => true,
+                        request: () => true,
+                    },
+                    });
                 }).not.to.throw(TypeError);
             });
-            it('should reject API adapter with no proper API Adapter API implemented', () => {
+
+            it('should reject API Adapter with no proper api API implemented', () => {
                 expect(() => {
-                    /* eslint-disable no-new */
-                    new Application({ api: {} });
-                    /* eslint-enable no-new */
+                    application = new Application({ api: {} });
                 }).to.throw(TypeError);
             });
         });
-        context('when application is ready to manage features', () => {
-            let application;
+
+        context('when application is being configured', () => {
+            const localStorage = new LocalStorage('./tmp/localStorage');
+            const apiAdapter = {
+                pluginCall: () => true,
+                unplugCall: () => true,
+                request: () => true,
+            };
+            const mockFeature = {};
 
             beforeEach(() => {
-                application = new Application({});
-            });
-            it('should have an empty list of features by default', () => {
-                expect(application.getFeatures()).to.deep.equal([]);
-            });
-            it('should be extended by a feature with core implementing required API', () => {
-                /* eslint-disable class-methods-use-this */
-                class SimpleFeatureCore {
-                    execute() {}
-                }
-                /* eslint-enable class-methods-use-this */
-                application.extendWithFeature('goalie-in', SimpleFeatureCore);
-                expect(application.getFeatures()).to.deep.equal(['goalie-in']);
-            });
-            it('should be shrinked by a feature', () => {
-                /* eslint-disable class-methods-use-this */
-                class SimpleFeatureCore {
-                    execute() {}
-                }
-                /* eslint-enable class-methods-use-this */
-                application.extendWithFeature('goalie-in', SimpleFeatureCore);
-                application.shrinkWithFeature('goalie-in');
-                expect(application.getFeatures()).to.deep.equal([]);
-            });
-            it('should return feature when extended', () => {
-                /* eslint-disable class-methods-use-this */
-                class SimpleFeatureCore {
-                    execute() {}
-                }
-                /* eslint-enable class-methods-use-this */
-                const feature = application.extendWithFeature('goalie-in', SimpleFeatureCore);
-                expect(isInterfaceImplemented(feature, ['execute'])).to.equal(true);
-            });
-            it('should return feature after extended', () => {
-                /* eslint-disable class-methods-use-this */
-                class SimpleFeatureCore {
-                    execute() {}
-                }
-                /* eslint-enable class-methods-use-this */
-                const featureWhileExtending = application.extendWithFeature('goalie-in', SimpleFeatureCore);
-                const featureAfterExtending = application.getFeature('goalie-in');
-                expect(featureWhileExtending).to.equal(featureAfterExtending);
-            });
-            it('should execute a feature already available', () => {
-                const coreMock = {
-                    execute: sinon.stub(),
-                };
-
-                /* eslint-disable class-methods-use-this */
-                class SimpleFeatureCore {
-                    execute() {
-                        coreMock.execute();
-                    }
-                }
-                /* eslint-enable class-methods-use-this */
-                application.extendWithFeature('score-team', SimpleFeatureCore);
-
-                application.executeFeature('score-team');
-                expect(coreMock.execute.calledOnce).to.be.equal(true);
-            });
-            it('should not throw error when feature to execute is not available', () => {
-                expect(() => {
-                    application.executeFeature('punish-player');
-                }).not.to.throw(Error);
-            });
-            it('should replace already added feature when feature with same id is added to', () => {
-                const coreMock1 = {
-                    execute: sinon.stub(),
-                };
-
-                const coreMock2 = {
-                    execute: sinon.stub(),
-                };
-
-                /* eslint-disable class-methods-use-this */
-                class SimpleFeatureCore1 {
-                    execute() {
-                        coreMock1.execute();
-                    }
-                }
-                class SimpleFeatureCore2 {
-                    execute() {
-                        coreMock2.execute();
-                    }
-                }
-                /* eslint-enable class-methods-use-this */
-                application.extendWithFeature('score-team', SimpleFeatureCore1);
-                application.extendWithFeature('score-team', SimpleFeatureCore2);
-                expect(application.getFeatures()).to.deep.equal(['score-team']);
-
-                application.executeFeature('score-team');
-                expect(coreMock1.execute.called).to.be.equal(false);
-                expect(coreMock2.execute.calledOnce).to.be.equal(true);
-            });
-        });
-        context('when dependency is injected to application', () => {
-            let FactoryStub;
-
-            beforeEach(() => {
-                FactoryStub = sinon.stub(FeatureFactory, 'produce');
+                application = new Application({ persistency: localStorage, api: apiAdapter });
+                sinon.stub(FeatureFactory, 'produce').returns(mockFeature);
             });
 
             afterEach(() => {
-                FactoryStub.restore();
+                FeatureFactory.produce.restore();
             });
 
-            /* eslint-disable class-methods-use-this */
-            class SimpleFeatureCore {
-                execute() {}
-            }
-            /* eslint-enable class-methods-use-this */
+            it('should be able to be extend with a feature', () => {
+                application.extendWithFeature('goalie-in', SimpleFeatureCore);
+                const availableFeatures = application.getFeatureNames();
 
-            it('should pass persistency to feature factory while extending with new feature', () => {
-                const persistencyStub = {
-                    getItem: () => {},
-                    setItem: () => {},
-                    removeItem: () => {},
-                    clear: () => {},
-                };
-                const application = new Application({
-                    Core: SimpleFeatureCore,
-                    persistency: persistencyStub,
-                });
-                application.extendWithFeature('end-period');
-                expect(FactoryStub.calledOnce).to.be.equal(true);
-                expect(FactoryStub.getCall(0).args[0].persistency).to.be.equal(persistencyStub);
+                expect(availableFeatures.length).to.be.equal(1);
+                expect(availableFeatures.includes('goalie-in')).to.be.equal(true);
             });
 
-            it('should pass api to feature factory while extending with new feature', () => {
-                const apiStub = {
-                    pluginCall: () => {},
-                    request: () => {},
+            it('should be able to be shrinked by a feature', () => {
+                application.extendWithFeature('goalie-in', SimpleFeatureCore);
+                application.shrinkWithFeature('goalie-in');
+                const availableFeatures = application.getFeatureNames();
+
+                expect(availableFeatures.length).to.be.equal(0);
+            });
+
+            it('should return feature instance when available', () => {
+                application.extendWithFeature('goalie-in', SimpleFeatureCore);
+                const feature = application.getFeature('goalie-in');
+                expect(feature).to.be.equal(mockFeature);
+            });
+
+            it('should return undefined when no requested feature added to application', () => {
+                application.extendWithFeature('goalie-in', SimpleFeatureCore);
+                const feature = application.getFeature('goalie-out');
+                expect(feature).to.be.equal(undefined);
+            });
+
+            it('should pass persistency and API adapter to feature', () => {
+                application.extendWithFeature('goalie-in', SimpleFeatureCore);
+
+                const call = FeatureFactory.produce.getCall(0);
+
+                expect(FeatureFactory.produce.calledOnce).to.be.equal(true);
+                expect(typeof call.args[0]).to.be.equal('object');
+                expect(call.args[0].Core).to.be.equal(SimpleFeatureCore);
+                expect(call.args[0].persistency).to.be.equal(localStorage);
+                expect(call.args[0].api).to.be.equal(apiAdapter);
+            });
+        });
+
+        context('when application is executing', () => {
+            let feature;
+
+            beforeEach(() => {
+                feature = {
+                    execute: sinon.spy(),
                 };
-                const application = new Application({
-                    Core: SimpleFeatureCore,
-                    api: apiStub,
-                });
-                application.extendWithFeature('goalie-out');
-                expect(FactoryStub.calledOnce).to.be.equal(true);
-                expect(FactoryStub.getCall(0).args[0].api).to.be.equal(apiStub);
+                sinon.stub(FeatureFactory, 'produce').returns(feature);
+
+                application = new Application();
+                application.extendWithFeature('goalie-in', SimpleFeatureCore);
+            });
+
+            afterEach(() => {
+                FeatureFactory.produce.restore();
+            });
+
+            it('should run existing feature when required', () => {
+                application.executeFeature('goalie-in');
+
+                expect(feature.execute.calledOnce).to.be.equal(true);
+            });
+
+            it('should not do anything when unregistered feature is required to run', () => {
+                expect(() => {
+                    application.executeFeature('goalie-out');
+                }).not.to.throw(Error);
+
+                expect(feature.execute.calledOnce).to.be.equal(false);
+            });
+
+            it('should pass received arguments to feature', () => {
+                application.executeFeature('goalie-in', '97');
+
+                expect(feature.execute.getCall(0).args[0]).to.be.equal('97');
             });
         });
     });
