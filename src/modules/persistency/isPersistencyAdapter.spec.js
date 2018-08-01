@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import { isPersistencyAdapter } from './isPersistencyAdapter';
 import * as Util from '../../util/isInterfaceImplemented';
 
-import { MinimumRequiredApi } from './isPersistencyAdapter.spec-def';
+import { MinimumRequiredApi } from './isPersistencyAdapter.specdef';
 
 describe('Persistency Module', () => {
     describe('Persistency Adapter Validator', () => {

@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { ApiAdapter } from './ApiAdapter';
-import { properCallId, MockedBookTableCall, MockedGetBookingsCall, MockedGetQueueItemCall } from './ApiAdapter.spec-def';
+import { properCallId, MockedBookTableCall, MockedGetBookingsCall, MockedGetQueueItemCall } from './ApiAdapter.specdef';
 
 describe('API Module', () => {
     describe('ApiAdapter', () => {

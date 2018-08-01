@@ -4,7 +4,7 @@ import sinon from 'sinon';
 import { isApiAdapter } from './isApiAdapter';
 import * as Util from '../../util/isInterfaceImplemented';
 
-import { MinimumRequiredApi } from './isApiAdapter.spec-def';
+import { MinimumRequiredApi } from './isApiAdapter.specdef';
 
 describe('API Module', () => {
     describe('API Adapter Validator', () => {

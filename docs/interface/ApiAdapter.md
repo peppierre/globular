@@ -20,4 +20,4 @@ API Adapter interface is a common way to make API plugginable to applications. W
         }
     }
 
-*Note that [globular.Api](/docs/objects/framework/api/README.md) implements this interface. Please check section for specialties.*
+*Note that [globular.Api](/docs/objects/framework/Api.md) implements this interface. Please check section for specialties.*

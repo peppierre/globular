@@ -4,7 +4,7 @@ import { LocalStorage } from 'node-localstorage';
 
 import { Application } from './Application';
 import FeatureFactory from '../../modules/feature/FeatureFactory';
-import { SimpleFeatureCore } from './Application.spec-def';
+import { SimpleFeatureCore } from './Application.specdef';
 
 describe('Application Module', () => {
     describe('Application', () => {

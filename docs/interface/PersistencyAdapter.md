@@ -2,7 +2,7 @@
 
 [Index](/docs/README.md) | [Interface definitions](/docs/interface/README.md) | Persistency Adapter interface
 
-Persistency Adapter interface provides a way to build-up a persistency-agnostic application. This interface only defines a few set of methods an Adapter instance must implement and [Feature Core](/docs/interface/feature-core/README.md) must use. These methods are:
+Persistency Adapter interface provides a way to build-up a persistency-agnostic application. This interface only defines a few set of methods an Adapter instance must implement and [Feature Core](/docs/interface/FeatureCore.md) must use. These methods are:
 
 1. `getItem(key)`
 1. `setItem(key, value)`

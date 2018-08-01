@@ -2,12 +2,20 @@
 
 [Index](/docs/README.md) | Interface definitions
 
-[Feature Core interface](feature-core/README.md)
+[Feature Core interface](FeatureCore.md)
 
-[Persistency Adapter interface](persistency-adapter/README.md)
+[Persistency Adapter interface](PersistencyAdapter.md)
 
-[API Adapter interface](api-adapter/README.md)
+[API Adapter interface](ApiAdapter.md)
 
-[API Request function](api-request/README.md)
+[API Request function](ApiRequest.md)
 
-[View function](view/README.md)
+[Start callback function](StartCallback.md)
+
+[Result callback function](ResultCallback.md)
+
+[Failure callback function](FailureCallback.md)
+
+[Finished callback function](FinishedCallback.md)
+
+[View function](View.md)

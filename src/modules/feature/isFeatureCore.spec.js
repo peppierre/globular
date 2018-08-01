@@ -4,7 +4,7 @@ import sinon from 'sinon';
 import { isFeatureCore } from './isFeatureCore';
 import * as Util from '../../util/isInterfaceImplemented';
 
-import { MinimumRequiredFeature } from './isFeatureCore.spec-def';
+import { MinimumRequiredFeature } from './isFeatureCore.specdef';
 
 describe('Feature Module', () => {
     describe('FeatureCore Validator', () => {

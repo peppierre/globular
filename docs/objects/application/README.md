@@ -4,14 +4,14 @@
 
 Application object provides ability work with features of application. This includes extending application with a feature, as well as executing a feature.
 
-[getFeature()](get-feature/README.md)
+[getFeature()](GetFeature.md)
 
-[getFeatureNames()](get-feature-names/README.md)
+[getFeatureNames()](GetFeatureNames.md)
 
-[extendWithFeature()](extend-with-feature/README.md)
+[extendWithFeature()](ExtendWithFeature.md)
 
-[shrinkWithFeature()](shrink-with-feature/README.md)
+[shrinkWithFeature()](ShrinkWithFeature.md)
 
-[executeFeature()](execute-feature/README.md)
+[executeFeature()](ExecuteFeature.md)
 
-[apiAdapter](api-adapter/README.md)
+[apiAdapter](ApiAdapter.md)

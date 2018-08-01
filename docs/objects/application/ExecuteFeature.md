@@ -2,7 +2,7 @@
 
 [Index](/docs/README.md) | [Objects in Globular](/docs/objects/README.md) | [Application](/docs/objects/application/README.md) | executeFeature()
 
-Executes a feature of application. This method is a syntax sugar around [execute](/docs/objects/feature/execute/README.md) method of [Feature](/docs/objects/feature/README.md) object.
+Executes a feature of application. This method is a syntax sugar around [execute](/docs/objects/feature/Execute.md) method of [Feature](/docs/objects/feature/README.md) object.
 
 If no feature is available with given name, no execution occur.
 

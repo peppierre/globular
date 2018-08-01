@@ -18,7 +18,7 @@ Initializes a new Globular application.
 
 *(optional)* A configuration object to define persistency and/or API adapters for application. If omitted, only framework instantiated API Adapter will be available in application, by default. If application requires persistency, it **must be** passed to application via configuration object.
 
-For further details about requirements against adapters, see [Persistency Adapter](/docs/interface/persistency-adapter/README.md) and [API Adapter](/docs/interface/api-adapter/README.md) sections below.
+For further details about requirements against adapters, see [Persistency Adapter](/docs/interface/PersistencyAdapter.md) and [API Adapter](/docs/interface/ApiAdapter.md) sections below.
 
 **Return value**
 

@@ -3,7 +3,7 @@ import { isInterfaceImplemented } from './isInterfaceImplemented';
 import {
     requiredMethods, MinimumApiInstance, MinimumApiClass,
     MinimumApiMixed,
-} from './isInterfaceImplemented.spec-def';
+} from './isInterfaceImplemented.specdef';
 
 describe('Utilities', () => {
     describe('isInterfaceImplemented utility', () => {

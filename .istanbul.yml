@@ -2,7 +2,7 @@ instrumentation:
   root: src
   include-all-sources: true
   default-excludes: true
-  excludes: ['**/*.spec.js', '**/*.spec-def.js', '**/index.js']
+  excludes: ['**/*.spec.js', '**/*.specdef.js', '**/index.js']
   es-modules: true
 extensions:
     - .js

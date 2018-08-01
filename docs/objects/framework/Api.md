@@ -2,11 +2,11 @@
 
 [Index](/docs/README.md) | [Objects in Globular](/docs/objects/README.md) | [Framework](/docs/objects/framework/README.md) | Api class
 
-Provides a class with [API Adapter](/docs/interface/api-adapter/README.md)-compatible interface. If you don't need whole functionality of framework but would like to centralize and standarize your API requests, it would be a good choice to create a new instance of this class and refer it in your custom application.
+Provides a class with [API Adapter](/docs/interface/ApiAdapter.md)-compatible interface. If you don't need whole functionality of framework but would like to centralize and standarize your API requests, it would be a good choice to create a new instance of this class and refer it in your custom application.
 
-By default, no request could be handled by Adapter instance, capabilites must be plugged-in via [`pluginCall` method](/docs/interface/api-adapter/README.md).
+By default, no request could be handled by Adapter instance, capabilites must be plugged-in via [`pluginCall` method](/docs/interface/ApiAdapter.md).
  
-Calling [`request`](/docs/interface/api-adapter/README.md) method of built-in Adapter returns a Promise to use in feature core.
+Calling [`request`](/docs/interface/ApiAdapter.md) method of built-in Adapter returns a Promise to use in feature core.
 
     class FetchLocationWeather {
         constructor({api}) {

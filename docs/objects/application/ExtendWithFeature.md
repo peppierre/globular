@@ -16,7 +16,7 @@ Extends application's functionality with a feature.
 
 `featureCore`
 
-*(mandatory)* A class which implements business object of feature. For details about interface requirement, check [Feature Core class](/docs/interface/feature-core/README.md) section.
+*(mandatory)* A class which implements business object of feature. For details about interface requirement, check [Feature Core class](/docs/interface/FeatureCore.md) section.
 
 **Return value**
 

@@ -2,7 +2,7 @@
 
 [Index](/docs/README.md) | [Objects in Globular](/docs/objects/README.md) | [Feature](/docs/objects/feature/README.md) | execute()
 
-Executes a feature by passing a model directly to [Feature Core class](/docs/interface/feature-core/README.md) instance wrapped by feature.
+Executes a feature by passing a model directly to [Feature Core class](/docs/interface/FeatureCore.md) instance wrapped by feature.
 
 **Signature**
 
