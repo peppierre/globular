@@ -28,3 +28,7 @@
       1. Finished
    1. feature's view plug-in functionality is marked as deprecated.
       *please use result hook instead.*
+
+### [0.3.1](https://github.com/peppierre/globular/releases/tag/v0.3.1)
+
+   1. Dependency updates to reduce vulnerabilities reported NPM audit
